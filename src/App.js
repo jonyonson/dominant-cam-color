@@ -4,6 +4,7 @@ import { useWindowDimensions } from './hooks/useWindowDimensions';
 import ColorThief from 'colorthief';
 import rgbToHex from './utils/rgbToHex';
 import { FaCamera } from 'react-icons/fa';
+import { GoLogoGithub } from 'react-icons/go';
 import './App.css';
 
 const CAPTURE_OPTIONS = {
@@ -76,6 +77,11 @@ function App() {
               color="#fff"
               style={{ cursor: 'pointer' }}
             />
+          </div>
+          <div className="github">
+            <a href="https://github.com/jonyonson/dominant-cam-color">
+              <GoLogoGithub size="52" color="#fff" />
+            </a>
           </div>
           <canvas className="photo" ref={canvasRef} width={640} height={480} />
         </div>
