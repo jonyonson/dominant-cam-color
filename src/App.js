@@ -15,7 +15,7 @@ function App() {
   const canvasRef = useRef();
   const imageRef = useRef();
   const mediaStream = useUserMedia(CAPTURE_OPTIONS);
-  const [imageSource, setimageSource] = useState(null);
+  const [imageSource, setImageSource] = useState(null);
   const [dominantColor, setDominantColor] = useState('#FFFFFF');
   const [colorPalette, setColorPalette] = useState([]);
   // const [live, setLive] = useState(false);
@@ -40,6 +40,7 @@ function App() {
       setDominantColor(rgbToHex(color));
       setColorPalette(palette.map((x) => rgbToHex(x)));
     }
+    // if (live) takePhoto();
   }, [imageSource]);
 
   if (mediaStream && videoRef.current && !videoRef.current.srcObject) {
@@ -48,13 +49,11 @@ function App() {
     // console.log(videoRef.current.height);
   }
 
-  function handleCanPlay() {
-    videoRef.current.play();
-  }
+  const handleCanPlay = () => videoRef.current.play();
 
   const takePhoto = () => {
     const data = canvasRef.current.toDataURL('image/jpeg');
-    setimageSource(data);
+    setImageSource(data);
   };
 
   return (
@@ -71,12 +70,11 @@ function App() {
         <div className="controls">
           {/* <button onClick={() => setLive((prev) => !prev)}>
             Live Update: {live ? 'ON' : 'OFF'}
-          </button>
-          <br /> */}
-          {/* {!live && <button onClick={takePhoto}>Take Photo</button>}*/}
+          </button> */}
+          <br />
+          {/* {!live && <button onClick={takePhoto}>Take Photo</button>} */}
           <button onClick={takePhoto}>Take Photo</button>
         </div>
-        {/* {!live && ( */}
         <div>
           {imageSource && (
             <img
@@ -98,7 +96,6 @@ function App() {
             ))}
           </div>
         </div>
-        {/* )} */}
       </div>
     </div>
   );
