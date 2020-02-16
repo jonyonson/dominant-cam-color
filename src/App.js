@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useUserMedia } from './hooks/useUserMedia';
-import { useWindowDimensions } from './hooks/useWindowDimensions';
+import { useWindowWidth } from './hooks/useWindowWidth';
 import ColorThief from 'colorthief';
 import rgbToHex from './utils/rgbToHex';
 import { FaCamera } from 'react-icons/fa';
@@ -9,8 +9,8 @@ import './App.css';
 
 const CAPTURE_OPTIONS = {
   audio: false,
-  video: true,
-  // video: { facingMode: "environment" },
+  // video: true,
+  video: { facingMode: 'environment' },
 };
 
 function App() {
@@ -18,15 +18,11 @@ function App() {
   const canvasRef = useRef();
   const imageRef = useRef();
   const mediaStream = useUserMedia(CAPTURE_OPTIONS);
+  const windowWidth = useWindowWidth();
   const [imageSource, setImageSource] = useState(null);
   const [dominantColor, setDominantColor] = useState('#fafafa');
   const [colorPalette, setColorPalette] = useState([]);
-  const [imageDimensions, setImageDimensions] = useState({
-    width: 640,
-    height: 480,
-  });
-  const windowWidth = useWindowDimensions();
-  // const [live, setLive] = useState(false);
+  const [imageScale, setImageScale] = useState({ width: 420, height: 315 });
 
   useEffect(() => {
     const ctx = canvasRef.current.getContext('2d');
@@ -51,7 +47,7 @@ function App() {
       const canvasHeight = canvas.clientHeight;
       const width = canvasWidth < 640 ? canvasWidth * 0.65 : 640 * 0.65;
       const height = canvasHeight < 480 ? canvasHeight * 0.65 : 480 * 0.65;
-      setImageDimensions({ width, height });
+      setImageScale({ width, height });
     }
   }, [imageSource, windowWidth]);
 
@@ -98,22 +94,24 @@ function App() {
               ref={imageRef}
               className="picture"
               alt=""
-              width={imageDimensions.width}
-              height={imageDimensions.height}
+              width={imageScale.width}
+              height={imageScale.height}
             />
             <div className="color-palette">
               {colorPalette.map((color) => {
                 const len = colorPalette.length;
-                const height = imageDimensions.height / len + 'px';
+                const height = imageScale.height / len + 'px';
                 return (
                   <div
                     key={color}
-                    className="color-square"
+                    className="color-swatch"
                     style={{
                       background: color,
                       height,
                     }}
-                  />
+                  >
+                    {color}
+                  </div>
                 );
               })}
             </div>

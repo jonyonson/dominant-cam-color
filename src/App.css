@@ -60,10 +60,15 @@ body,
   width: 100%;
 }
 
+.color-swatch {
+  color: #ccc;
+  font-family: monospace;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .photo-results {
   display: flex;
 }
-
-/* .picture {} */
-
-/* .color-square {} */
