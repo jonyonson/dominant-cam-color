@@ -5,6 +5,16 @@ body,
   min-height: 100vh;
 }
 
+.app {
+  padding-top: 2rem;
+}
+
+.canvas-wrapper {
+  max-width: 100%;
+  width: 640px;
+  position: relative;
+}
+
 .controls {
   position: absolute;
   top: 20px;
@@ -13,9 +23,11 @@ body,
 
 .photobooth {
   /* background: white; */
-  max-width: 150rem;
+  /* max-width: 150rem; */
+  width: 640px;
+  max-width: 100%;
   margin: 0 auto;
-  border-radius: 2px;
+  border-radius: 20px;
 }
 
 /*clearfix*/
@@ -26,10 +38,8 @@ body,
 }
 
 .photo {
-  width: 100%;
   max-width: 100%;
   width: 640px;
-  /* float: left; */
 }
 
 .player {
@@ -40,46 +50,14 @@ body,
   width: 200px;
 }
 
-.picture {
-  display: block;
-}
-
-/*
-  Strip!
-*/
-
-.strip {
-  padding: 2rem;
-}
-
-.strip img {
-  width: 100px;
-  overflow-x: scroll;
-  padding: 0.8rem 0.8rem 2.5rem 0.8rem;
-  box-shadow: 0 0 3px rgba(0, 0, 0, 0.2);
-  background: white;
-}
-
-.strip a:nth-child(5n + 1) img {
-  transform: rotate(10deg);
-}
-.strip a:nth-child(5n + 2) img {
-  transform: rotate(-2deg);
-}
-.strip a:nth-child(5n + 3) img {
-  transform: rotate(8deg);
-}
-.strip a:nth-child(5n + 4) img {
-  transform: rotate(-11deg);
-}
-.strip a:nth-child(5n + 5) img {
-  transform: rotate(12deg);
-}
-
 .color-palette {
+  width: 100%;
+}
+
+.photo-results {
   display: flex;
 }
-.color-square {
-  height: 30px;
-  width: 30px;
-}
+
+/* .picture {} */
+
+/* .color-square {} */
