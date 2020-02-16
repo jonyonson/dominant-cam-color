@@ -40,20 +40,16 @@ function App() {
   useEffect(() => {
     if (imageSource) {
       const colorThief = new ColorThief();
-
       const color = colorThief.getColor(imageRef.current);
       const palette = colorThief.getPalette(imageRef.current);
-
       setDominantColor(rgbToHex(color));
       setColorPalette(palette.map((x) => rgbToHex(x)));
 
       const canvas = document.querySelector('.photo');
       const canvasWidth = canvas.clientWidth;
       const canvasHeight = canvas.clientHeight;
-
       const width = canvasWidth < 640 ? canvasWidth * 0.65 : 640 * 0.65;
       const height = canvasHeight < 480 ? canvasHeight * 0.65 : 480 * 0.65;
-
       setImageDimensions({ width, height });
     }
   }, [imageSource, windowWidth]);
@@ -80,7 +76,6 @@ function App() {
               color="#fff"
               style={{ cursor: 'pointer' }}
             />
-            {/* <button onClick={takePhoto}>Take Photo</button> */}
           </div>
           <canvas className="photo" ref={canvasRef} width={640} height={480} />
         </div>
@@ -90,11 +85,8 @@ function App() {
           onCanPlay={handleCanPlay}
           autoPlay
         />
-        {/* <div className="controls">
-          <button onClick={takePhoto}>Take Photo</button>
-        </div> */}
-        <div className="photo-results">
-          {imageSource && (
+        {imageSource && (
+          <div className="photo-results">
             <img
               src={imageSource}
               ref={imageRef}
@@ -103,24 +95,24 @@ function App() {
               width={imageDimensions.width}
               height={imageDimensions.height}
             />
-          )}
-          <div className="color-palette">
-            {colorPalette.map((color) => {
-              const len = colorPalette.length;
-              const height = imageDimensions.height / len + 'px';
-              return (
-                <div
-                  key={color}
-                  className="color-square"
-                  style={{
-                    background: color,
-                    height,
-                  }}
-                />
-              );
-            })}
+            <div className="color-palette">
+              {colorPalette.map((color) => {
+                const len = colorPalette.length;
+                const height = imageDimensions.height / len + 'px';
+                return (
+                  <div
+                    key={color}
+                    className="color-square"
+                    style={{
+                      background: color,
+                      height,
+                    }}
+                  />
+                );
+              })}
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );
