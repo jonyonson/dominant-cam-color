@@ -9,8 +9,8 @@ import './App.css';
 
 const CAPTURE_OPTIONS = {
   audio: false,
-  // video: true,
-  video: { facingMode: 'environment' },
+  video: true,
+  // video: { facingMode: 'environment' },
 };
 
 function App() {
