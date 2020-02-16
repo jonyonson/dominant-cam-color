@@ -28,19 +28,10 @@ body,
 }
 
 .photobooth {
-  /* background: white; */
-  /* max-width: 150rem; */
   width: 640px;
   max-width: 100%;
   margin: 0 auto;
   border-radius: 20px;
-}
-
-/*clearfix*/
-.photobooth:after {
-  content: '';
-  display: block;
-  clear: both;
 }
 
 .photo {
