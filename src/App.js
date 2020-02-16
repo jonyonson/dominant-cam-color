@@ -17,12 +17,11 @@ function App() {
   const videoRef = useRef();
   const canvasRef = useRef();
   const imageRef = useRef();
-  const mediaStream = useUserMedia(CAPTURE_OPTIONS);
   const windowWidth = useWindowWidth();
-  const [imageSource, setImageSource] = useState(null);
-  const [dominantColor, setDominantColor] = useState('#fafafa');
+  const mediaStream = useUserMedia(CAPTURE_OPTIONS);
   const [colorPalette, setColorPalette] = useState([]);
-  const [imageScale, setImageScale] = useState({ width: 420, height: 315 });
+  const [dominantColor, setDominantColor] = useState('#fafafa');
+  const [image, setImage] = useState({ source: null, width: 420, height: 315 });
 
   useEffect(() => {
     const ctx = canvasRef.current.getContext('2d');
@@ -35,7 +34,7 @@ function App() {
   }, []);
 
   useEffect(() => {
-    if (imageSource) {
+    if (image.source) {
       const colorThief = new ColorThief();
       const color = colorThief.getColor(imageRef.current);
       const palette = colorThief.getPalette(imageRef.current);
@@ -47,19 +46,21 @@ function App() {
       const canvasHeight = canvas.clientHeight;
       const width = canvasWidth < 640 ? canvasWidth * 0.65 : 640 * 0.65;
       const height = canvasHeight < 480 ? canvasHeight * 0.65 : 480 * 0.65;
-      setImageScale({ width, height });
+      setImage((img) => ({ ...img, width, height }));
     }
-  }, [imageSource, windowWidth]);
+  }, [image.source, windowWidth]);
 
   if (mediaStream && videoRef.current && !videoRef.current.srcObject) {
     videoRef.current.srcObject = mediaStream;
   }
 
-  const handleCanPlay = () => videoRef.current.play();
+  const handleCanPlay = () => {
+    videoRef.current.play();
+  };
 
   const takePhoto = () => {
-    const data = canvasRef.current.toDataURL('image/jpeg');
-    setImageSource(data);
+    const source = canvasRef.current.toDataURL('image/jpeg');
+    setImage({ ...image, source });
   };
 
   return (
@@ -87,20 +88,20 @@ function App() {
           onCanPlay={handleCanPlay}
           autoPlay
         />
-        {imageSource && (
+        {image.source && (
           <div className="photo-results">
             <img
-              src={imageSource}
+              src={image.source}
+              width={image.width}
+              height={image.height}
               ref={imageRef}
               className="picture"
               alt=""
-              width={imageScale.width}
-              height={imageScale.height}
             />
             <div className="color-palette">
               {colorPalette.map((color) => {
                 const len = colorPalette.length;
-                const height = imageScale.height / len + 'px';
+                const height = image.height / len + 'px';
                 return (
                   <div
                     key={color}
