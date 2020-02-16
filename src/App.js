@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useUserMedia } from './hooks/useUserMedia';
-import './App.css';
 import ColorThief from 'colorthief';
+import rgbToHex from './utils/rgbToHex';
+import './App.css';
 
 const CAPTURE_OPTIONS = {
   audio: false,
@@ -14,81 +15,45 @@ function App() {
   const canvasRef = useRef();
   const imageRef = useRef();
   const mediaStream = useUserMedia(CAPTURE_OPTIONS);
-  // const [height, setHeight] = useState();
-  // const [width, setwidth] = useState();
-  const [imageSrc, setImageSrc] = useState(null);
+  const [imageSource, setimageSource] = useState(null);
   const [dominantColor, setDominantColor] = useState('#FFFFFF');
   const [colorPalette, setColorPalette] = useState([]);
 
   useEffect(() => {
     const ctx = canvasRef.current.getContext('2d');
-    console.log('runnin');
 
     const intervalId = setInterval(() => {
       ctx.drawImage(videoRef.current, 0, 0);
     }, 16);
 
     return () => clearInterval(intervalId);
-  });
-
-  const rgbToHex = (rgb) => {
-    const [r, g, b] = rgb;
-    return '#' + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
-  };
+  }, []);
 
   useEffect(() => {
-    console.log(imageSrc);
-    if (imageSrc) {
-      // ColorThief.getColor(imageSrc)
-      //   .then((color) => console.log(color))
-      //   .catch((err) => console.log(err));
+    if (imageSource) {
       const colorThief = new ColorThief();
 
       const color = colorThief.getColor(imageRef.current);
       const palette = colorThief.getPalette(imageRef.current);
-      console.log(rgbToHex(color));
-      console.log(palette);
 
       setDominantColor(rgbToHex(color));
       setColorPalette(palette.map((x) => rgbToHex(x)));
-
-      // .then((color) => console.log(color))
-      // .catch((err) => console.log(err));
-
-      // const img = new Image(640, 480);
-      // img.src = imageSrc;
-      // img.addEventListener('load', function() {
-      //   colorThief.getColor(img);
-      //   console.log(colorThief.getColor());
-      // });
-
-      // colorThief
-      //   .getColorFromUrl(imageSrc)
-      //   .then((color) => console.log(color))
-      //   .catch((err) => console.log(err));
-
-      // console.log(img);
     }
-  }, [imageSrc]);
+  }, [imageSource]);
 
   if (mediaStream && videoRef.current && !videoRef.current.srcObject) {
     videoRef.current.srcObject = mediaStream;
-    console.log(videoRef.current);
-    console.log(videoRef.current.height);
+    // console.log(videoRef.current);
+    // console.log(videoRef.current.height);
   }
 
   function handleCanPlay() {
     videoRef.current.play();
   }
 
-  // fuction paintToCanvas() {
-  //   setWidth(videoRef)
-  // }
-
   const takePhoto = () => {
     const data = canvasRef.current.toDataURL('image/jpeg');
-    // console.log(data);
-    setImageSrc(data);
+    setimageSource(data);
   };
 
   return (
@@ -111,9 +76,9 @@ function App() {
           autoPlay
         ></video>
         <div className="strip"></div>
-        {imageSrc && (
+        {imageSource && (
           <img
-            src={imageSrc}
+            src={imageSource}
             ref={imageRef}
             className="picture"
             alt=""
