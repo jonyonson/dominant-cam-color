@@ -62,11 +62,13 @@ body,
 
 .color-swatch {
   color: #ccc;
-  font-family: monospace;
   font-weight: bold;
   display: flex;
   justify-content: center;
   align-items: center;
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+  font-size: 13px;
 }
 
 .photo-results {
