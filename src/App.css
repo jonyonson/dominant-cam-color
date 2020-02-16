@@ -2,11 +2,13 @@ html,
 body,
 #root,
 .app {
-  height: 100%;
+  min-height: 100vh;
 }
 
-.app {
-  /* background: green; */
+.controls {
+  position: absolute;
+  top: 20px;
+  left: 20px;
 }
 
 .photobooth {
@@ -31,10 +33,15 @@ body,
 }
 
 .player {
+  visibility: hidden;
   position: absolute;
   top: 20px;
   right: 20px;
   width: 200px;
+}
+
+.picture {
+  display: block;
 }
 
 /*

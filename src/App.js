@@ -18,6 +18,7 @@ function App() {
   const [imageSource, setimageSource] = useState(null);
   const [dominantColor, setDominantColor] = useState('#FFFFFF');
   const [colorPalette, setColorPalette] = useState([]);
+  // const [live, setLive] = useState(false);
 
   useEffect(() => {
     const ctx = canvasRef.current.getContext('2d');
@@ -59,42 +60,45 @@ function App() {
   return (
     <div className="app" style={{ background: [dominantColor] }}>
       <div className="photobooth">
-        <div className="controls">
-          <button onClick={takePhoto}>Take Photo</button>
-        </div>
-
-        <canvas
-          className="photo"
-          ref={canvasRef}
-          width={640}
-          height={480}
-        ></canvas>
+        <canvas className="photo" ref={canvasRef} width={640} height={480} />
         <video
           className="player"
           ref={videoRef}
           onCanPlay={handleCanPlay}
           autoPlay
-        ></video>
-        <div className="strip"></div>
-        {imageSource && (
-          <img
-            src={imageSource}
-            ref={imageRef}
-            className="picture"
-            alt=""
-            height={240}
-            width={320}
-          />
-        )}
-        <div className="color-palette">
-          {colorPalette.map((color) => (
-            <div
-              key={color}
-              className="color-square"
-              style={{ background: color }}
-            ></div>
-          ))}
+        />
+        {/* <div className="strip"></div> */}
+        <div className="controls">
+          {/* <button onClick={() => setLive((prev) => !prev)}>
+            Live Update: {live ? 'ON' : 'OFF'}
+          </button>
+          <br /> */}
+          {/* {!live && <button onClick={takePhoto}>Take Photo</button>}*/}
+          <button onClick={takePhoto}>Take Photo</button>
         </div>
+        {/* {!live && ( */}
+        <div>
+          {imageSource && (
+            <img
+              src={imageSource}
+              ref={imageRef}
+              className="picture"
+              alt=""
+              height={240}
+              width={320}
+            />
+          )}
+          <div className="color-palette">
+            {colorPalette.map((color) => (
+              <div
+                key={color}
+                className="color-square"
+                style={{ background: color }}
+              />
+            ))}
+          </div>
+        </div>
+        {/* )} */}
       </div>
     </div>
   );
